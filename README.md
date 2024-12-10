@@ -31,3 +31,28 @@ all:
           ansible_connection: local
           ansible_python_interpreter: /usr/bin/python3
 ```
+## Step 2: Cloning the Project
+
+Clone the Kubernetes deployment project from the repository (or use your own project):
+```
+git clone https://github.com/mlouguid/k8b-Ansible.git
+cd k8b-Ansible
+```
+## Step 3: Kubernetes Role Structure
+
+Ensure your kubernetes role has the following directory structure:
+```
+roles/
+└── kubernetes/
+    ├── tasks/
+    │   ├── main.yml
+    │   ├── install_k8s.yml
+    │   ├── containerd.yml
+    │   └── kube_prereqs.yml
+    ├── handlers/
+      └── main.yml
+```
+## step 4: deploy the playbook
+```
+ansible-playbook kubernetes_playbook.yml -i inventories/local/hosts --limit=kubernetes --ask-become-pass
+```
