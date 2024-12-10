@@ -1,0 +1,41 @@
+---
+- name: Install Docker and containerd prerequisites
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: true
+  with_items:
+    - apt-transport-https
+    - ca-certificates
+    - curl
+    - gnupg
+  become: true
+
+- name: Add Docker GPG key
+  command: >
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg |
+    gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+  args:
+    creates: /etc/apt/keyrings/docker.gpg
+  become: true
+
+- name: Add Docker repository
+  copy:
+    dest: /etc/apt/sources.list.d/docker.list
+    content: |
+      deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+      $(lsb_release -cs) stable
+  become: true
+
+- name: Install containerd
+  apt:
+    name: containerd.io
+    state: present
+  become: true
+
+- name: Configure containerd
+  template:
+    src: containerd_config.toml.j2
+    dest: /etc/containerd/config.toml
+  become: true
+  notify: Restart containerd

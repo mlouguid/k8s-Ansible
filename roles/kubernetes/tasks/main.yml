@@ -1,0 +1,9 @@
+---
+- name: Disable swap
+  include_tasks: kube_prereqs.yml
+
+- name: Install and configure containerd
+  include_tasks: containerd.yml
+
+- name: Install Kubernetes tools
+  include_tasks: install_k8s.yml

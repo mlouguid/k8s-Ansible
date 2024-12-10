@@ -1,0 +1,36 @@
+---
+- name: Add Kubernetes repository GPG key
+  command: >
+    curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.29/deb/Release.key |
+    gpg --dearmor -o /etc/apt/keyrings/kubernetes.gpg
+  args:
+    creates: /etc/apt/keyrings/kubernetes.gpg
+  become: true
+
+- name: Add Kubernetes repository
+  copy:
+    dest: /etc/apt/sources.list.d/kubernetes.list
+    content: |
+      deb [signed-by=/etc/apt/keyrings/kubernetes.gpg] https://pkgs.k8s.io/core:/stable:/v1.29/deb/ /
+  become: true
+
+- name: Install Kubernetes tools
+  apt:
+    name:
+      - kubelet
+      - kubeadm
+      - kubectl
+    state: present
+    update_cache: true
+  become: true
+
+- name: Mark Kubernetes packages to hold
+  apt:
+    name:
+      - kubelet
+      - kubeadm
+      - kubectl
+    state: present
+    force: yes
+    mark_hold: true
+  become: true
