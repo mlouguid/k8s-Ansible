@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="static/img/image.png" width="600">
+</p>
+
 # Kubernetes Deployment Using Ansible
 
 This guide outlines the steps to deploy Kubernetes on a target machine or cluster using Ansible. The playbook automates the installation and configuration of Kubernetes components on the target system.
