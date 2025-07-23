@@ -3,7 +3,8 @@
     children:
       kubernetes:
         hosts:
-          192.168.42.132:
+          node-master:
+            ansible_host: 192.168.42.132
             ansible_connection: local
             ansible_python_interpreter: /usr/bin/python3
       
